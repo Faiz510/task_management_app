@@ -1,12 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import User, { UserSchemaType } from "../model/userModal";
+import User from "../model/userModal";
 import AppError from "../utils/AppError";
 import catchAsyncHandler from "../utils/CatchAsyncHandler";
 import jwt, { JwtPayload } from "jsonwebtoken";
-
-export interface userRequest extends Request {
-  user?: UserSchemaType | null;
-}
+import { userRequest } from "../types/authTypes";
 
 export const getUsers = catchAsyncHandler(async (req, res, next) => {
   const user = await User.find();

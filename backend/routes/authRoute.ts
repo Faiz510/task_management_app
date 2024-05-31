@@ -11,15 +11,17 @@ import {
 
 const router = express.Router();
 
-router.route("/").get(protect, getUsers);
-
 router.route("/register").post(register);
 
 router.route("/login").post(login);
 
 router.route("/logout").post(logout);
 
-router.route("/deleteMe").delete(protect, deleteMe);
-router.route("/updateMe").patch(protect, updateMe);
+router.use(protect); // applied to all routes below
+
+router.route("/").get(getUsers);
+
+router.route("/deleteMe").delete(deleteMe);
+router.route("/updateMe").patch(updateMe);
 
 export default router;

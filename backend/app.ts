@@ -1,5 +1,6 @@
 import express from "express";
 import authRoute from "./routes/authRoute";
+import boardRoute from "./routes/boardRoute";
 import globalErrorHandler from "./utils/globalErrorHandler";
 import AppError from "./utils/AppError";
 import cookieParser from "cookie-parser";
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/board", boardRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(400, `can not found ${req.originalUrl}`));

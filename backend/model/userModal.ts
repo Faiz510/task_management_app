@@ -1,17 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
-
-export interface UserSchemaType extends Document {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string | undefined;
-  createdAt: Date;
-  correctPassword(
-    candidatePassword: string,
-    userPassword: string
-  ): Promise<boolean>;
-}
+import { UserSchemaType } from "../types/authTypes";
 
 const userSchema: Schema<UserSchemaType> = new mongoose.Schema({
   username: {
