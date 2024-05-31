@@ -4,7 +4,7 @@ import AppError from "../utils/AppError";
 import catchAsyncHandler from "../utils/CatchAsyncHandler";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export interface userDocuments extends Request {
+export interface userRequest extends Request {
   user?: UserSchemaType | null;
 }
 
@@ -66,7 +66,7 @@ export const login = catchAsyncHandler(async (req, res, next) => {
 });
 
 export const protect = catchAsyncHandler(
-  async (req: userDocuments, res, next) => {
+  async (req: userRequest, res, next) => {
     const token = req.cookies.task_jwt;
     if (!token || token === undefined) {
       return next(new AppError(400, "invalid token. plz login"));
@@ -104,3 +104,39 @@ export const logout = catchAsyncHandler(async (req, res, next) => {
     message: "you logout",
   });
 });
+
+///////////
+export const deleteMe = catchAsyncHandler(
+  async (req: userRequest, res, next) => {
+    // console.log(req.user);
+    const id = req.user?._id;
+
+    const user = await User.findByIdAndDelete(id);
+
+    res.status(200).json({
+      status: "sucess",
+      message: "your account has been deleted",
+    });
+  }
+);
+
+export const updateMe = catchAsyncHandler(
+  async (req: userRequest, res, next) => {
+    const id = req.user?.id;
+
+    const user = await User.findById(id);
+    if (!user) {
+      return next(new AppError(400, "user not found "));
+    }
+    const { username, email } = req.body;
+    user.username = username || user.username;
+    user.email = email || user?.email;
+
+    await user?.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      status: "sucess",
+      message: "your account detials updated",
+    });
+  }
+);
