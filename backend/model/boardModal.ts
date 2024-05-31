@@ -5,7 +5,7 @@ const boardSchema: Schema<boardSchemaType> = new mongoose.Schema({
   userId: String,
   title: { type: String, required: [true, "title must require"] },
   description: String,
-  columns: [{ type: String }],
+  columns: [{ type: String, required: [true, "status is required"] }],
   tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tasks" }],
 });
 

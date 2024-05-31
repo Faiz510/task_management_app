@@ -5,14 +5,22 @@ const taskSchema: Schema<taskSchemaType> = new mongoose.Schema({
   userId: String,
   title: { type: String, required: [true, "title must required"] },
   board: { type: mongoose.Schema.Types.ObjectId, ref: "Boards" },
-  status: String,
+  status: { type: String, required: [true, "status is requried "] },
   isCompleted: { type: Boolean, default: false },
   subTasks: [
     {
-      title: { type: String, required: [true, "title must required"] },
-      isActive: { type: Boolean, default: false },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubTasks",
     },
   ],
+});
+
+taskSchema.pre(/^find/, function (this: taskSchemaType, next) {
+  this.populate({
+    path: "subTasks",
+    select: "_id title",
+  });
+  next();
 });
 
 const Tasks = mongoose.model("Tasks", taskSchema);
