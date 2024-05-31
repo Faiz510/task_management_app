@@ -34,7 +34,7 @@ export const getBoards = catchAsyncHandler(async (req, res, next) => {
 
 export const getCurUserBoards = catchAsyncHandler(
   async (req: userRequest, res, next) => {
-    const boards = await Boards.findOne({ userId: req.user?._id });
+    const boards = await Boards.find({ userId: req.user?._id });
 
     res.status(200).json({
       status: "sucess",
