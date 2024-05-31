@@ -1,7 +1,12 @@
-import User from "../model/userModal";
+import { NextFunction, Request, Response } from "express";
+import User, { UserSchemaType } from "../model/userModal";
 import AppError from "../utils/AppError";
 import catchAsyncHandler from "../utils/CatchAsyncHandler";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+export interface userDocuments extends Request {
+  user?: UserSchemaType | null;
+}
 
 export const getUsers = catchAsyncHandler(async (req, res, next) => {
   const user = await User.find();
@@ -58,4 +63,44 @@ export const login = catchAsyncHandler(async (req, res, next) => {
     .json({
       user,
     });
+});
+
+export const protect = catchAsyncHandler(
+  async (req: userDocuments, res, next) => {
+    const token = req.cookies.task_jwt;
+    if (!token || token === undefined) {
+      return next(new AppError(400, "invalid token. plz login"));
+    }
+
+    if (process.env.JWT_SECRET_KEY === undefined) {
+      return next(new AppError(400, "invalid secrete key "));
+    }
+
+    interface decodedType {
+      id: string;
+      iat: number;
+      exp: number;
+    }
+
+    const decoded: JwtPayload = jwt.verify(
+      token,
+      process.env.JWT_SECRET_KEY
+    ) as decodedType;
+
+    const currentUser = await User.findById({ _id: decoded?.id });
+
+    if (!currentUser) {
+      return next(new AppError(400, "you are logout"));
+    }
+
+    req.user = currentUser;
+
+    next();
+  }
+);
+
+export const logout = catchAsyncHandler(async (req, res, next) => {
+  res.cookie("task_jwt", "").status(200).json({
+    message: "you logout",
+  });
 });
