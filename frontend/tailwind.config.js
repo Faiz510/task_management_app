@@ -16,6 +16,9 @@ export default {
           dark_secondary_text: "#828FA3",
         },
       },
+      fontFamily: {
+        body: ["Poppins", "sans-serif"],
+      },
     },
   },
   plugins: [],
