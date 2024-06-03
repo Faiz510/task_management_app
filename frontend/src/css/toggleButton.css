@@ -4,8 +4,8 @@
 .switch {
   position: relative;
   margin-top: 0.5rem;
-  width: 4rem;
-  height: 2rem;
+  width: 3rem;
+  height: 1.5rem;
   border-radius: 2rem;
   display: inline-block;
   cursor: pointer;
@@ -19,18 +19,18 @@
 .switch::after {
   content: "";
   position: absolute;
-  top: 0.1rem;
-  left: 0.1.8rem;
+  top: 0.05rem;
+  left: 0.1rem;
   border-radius: 50%;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.4rem;
+  height: 1.4rem;
   background-color: white;
   color: white;
   transition: all 0.2s linear;
 }
 
 input[type="checkbox"]:checked + .switch::after {
-  translate: 2rem 0;
+  translate: 1.5rem 0;
 }
 
 input[type="checkbox"]:checked + .switch {

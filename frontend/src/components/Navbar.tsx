@@ -8,17 +8,17 @@ import threeDotIcon from "../assets/icon-vertical-ellipsis.svg";
 const Navbar = () => {
   const [showBoards, setShowBoards] = useState<boolean>(false);
   return (
-    <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg">
-      <div className="flex items-center justify-center md:gap-2 cursor-pointer my-2 ml-4">
+    <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg w-full fixed top-0 z-10 h-20">
+      <div className="flex items-center justify-center md:gap-2 cursor-pointer my-4 ml-4">
         <img src={logoIcon} alt="" width={30} />
-        <h3 className="hidden md:flex text-4xl font-semibold tracking-wider">
+        <h3 className="hidden md:flex text-3xl font-semibold tracking-wider">
           Kanban
         </h3>
       </div>
 
       <div className="flex items-center justify-between px-6 md:px-10 my-2 w-[90%] md:w-[80%]">
         <div className="flex items-center justify-center gap-2">
-          <span className="text-3xl md:text-4xl font-semibold tracking-wider">
+          <span className="text-3xl  font-semibold tracking-wider">
             Broad title
           </span>
           <motion.div
@@ -39,7 +39,7 @@ const Navbar = () => {
             whileHover={{ opacity: 0.6, transition: { duration: 0.3 } }}
           >
             <img src={addTaskIcon} alt="" />
-            <span className="hidden md:flex text-lg font-semibold">
+            <span className="hidden md:flex text-base font-semibold">
               Add New Task
             </span>
           </motion.div>
