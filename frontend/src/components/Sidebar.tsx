@@ -5,9 +5,8 @@ import boardIcon from '../assets/icon-board.svg';
 import ligthIcon from '../assets/icon-light-theme.svg';
 import darkIcon from '../assets/icon-dark-theme.svg';
 import hideSideBarIcon from '../assets/icon-hide-sidebar.svg';
-// import showSideBarIcon from "../assets/icon-show-sidebar.svg";
 import '../css/toggleButton.css';
-import AddBoardModal from './modals/AddBoardModal';
+import AddBoardModal from './modals/BoardModal/AddBoardModal';
 
 interface sidebarPropsType {
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
