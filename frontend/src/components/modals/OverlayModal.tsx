@@ -23,9 +23,9 @@ const OverlayModal: React.FC<OverlayModalProps> = ({ children, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.3 } }}
       />
-      <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50  w-[90vw] md:w-[40vw] bg-custom-primary_bg dark:bg-custom-dark_primary_bg rounded-xl shadow-lg px-6">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50  w-[90vw] md:w-[40vw] bg-custom-primary_bg dark:bg-custom-dark_primary_bg rounded-xl shadow-lg px-6">
         {children}
-      </form>
+      </div>
     </Portal>
   );
 };

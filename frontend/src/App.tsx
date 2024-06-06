@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import TaskSection from './components/TaskSection';
 import { AnimatePresence, motion } from 'framer-motion';
 import ShowSidebarButton from './components/ShowSidebarButton';
+import '../src/css/ScrollBar.css';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);

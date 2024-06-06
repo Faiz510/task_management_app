@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import AddColumns from './AddColumns';
 
@@ -15,9 +15,18 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
 
   const onAddNewColumn = () => setDefaultCol([...defaultCol, '']);
 
+  const submitBoardForm = (e: FormEvent) => {
+    e.preventDefault();
+    const formData = {
+      defaultCol,
+    };
+
+    alert(formData);
+  };
+
   return (
     <OverlayModal onClose={onClose} key={'overlay'}>
-      <form className="flex flex-col">
+      <form className="flex flex-col" onSubmit={submitBoardForm}>
         <h3 className="font-semibold text-lg my-4 ml-3 dark:text-custom-primary_text">
           Add New Board
         </h3>
@@ -47,9 +56,8 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
         </button>
 
         <button
-          type="button"
+          type="submit"
           className="w-full my-2 mb-4 py-1 bg-custom-button_bg rounded-full text-custom-secondary_bg font-medium"
-          onClick={() => alert(defaultCol)}
         >
           Add Board
         </button>
