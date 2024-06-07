@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import logoIcon from '../assets/logo-mobile.svg';
 import { motion } from 'framer-motion';
 import ArrowIconDown from '../assets/icon-chevron-down.svg';
 import addTaskIcon from '../assets/icon-add-task-mobile.svg';
 import threeDotIcon from '../assets/icon-vertical-ellipsis.svg';
 import AddTaskModal from './modals/TaskModal/AddTaskModal';
+import BoardOpt from './BoardOpt';
+import EditBoardModal from './modals/BoardModal/EditBoardModal';
+import DelBoardModal from './modals/BoardModal/DelBoardModal';
 
 const Navbar = () => {
   const [showBoards, setShowBoards] = useState<boolean>(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
+  const [showBoardOpt, setShowBoardOpt] = useState<boolean>(false);
+  const [showEditBoardModal, setShowEditBoardModal] = useState<boolean>(false);
+  const [showDelBoardModal, setShowDelBoardModal] = useState<boolean>(false);
+  const dotDivRef = useRef<HTMLDivElement>(null);
+
   return (
     <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg w-full fixed top-0 z-10 h-20">
       <div className="flex items-center justify-center md:gap-2 cursor-pointer my-4 ml-4">
@@ -46,11 +54,27 @@ const Navbar = () => {
               Add New Task
             </span>
           </motion.div>
-          <span className="text-2xl text-custom-secondary_text cursor-pointer">
+          <span
+            ref={dotDivRef}
+            className="text-2xl text-custom-secondary_text cursor-pointer"
+            onClick={() => setShowBoardOpt((prev) => !prev)}
+          >
             <img src={threeDotIcon} alt="" width={5} />
           </span>
         </div>
       </div>
+
+      <BoardOpt
+        showBoardOpt={showBoardOpt}
+        setShowBoardOpt={setShowBoardOpt}
+        dotRef={dotDivRef}
+        setShowEditBoardModal={setShowEditBoardModal}
+        setShowDelBoardModal={setShowDelBoardModal}
+      />
+
+      {showEditBoardModal && <EditBoardModal onClose={setShowEditBoardModal} />}
+
+      {showDelBoardModal && <DelBoardModal onClose={setShowDelBoardModal} />}
 
       {showAddTaskModal && <AddTaskModal onClose={setShowAddTaskModal} />}
     </section>
