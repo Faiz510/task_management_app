@@ -1,7 +1,11 @@
-import Boards from "../data.json";
-import { motion } from "framer-motion";
+import { useState } from 'react';
+import Boards from '../data.json';
+import { motion } from 'framer-motion';
+import TaskModal from './modals/TaskModal/TaskModal';
 
 const TaskSection = () => {
+  const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
+
   return (
     <section className="bg-custom-secondary_bg h-screen px-4 flex ">
       <table className="w-full mt-4">
@@ -26,6 +30,7 @@ const TaskSection = () => {
                     key={j}
                     className="px-2 w-[250px] h-[100px] my-4 bg-custom-primary_bg cursor-pointer shadow-md rounded-md py-2"
                     whileHover={{ scale: 1.02, opacity: 0.6 }}
+                    onClick={() => setShowTaskModal(true)}
                   >
                     <h3 className="text-black dark:bg-custom-primary_bg font-semibold text-sm">
                       {task.title.length > 50
@@ -48,6 +53,7 @@ const TaskSection = () => {
           <h3>Add Column</h3>
         </div>
       )}
+      {showTaskModal && <TaskModal onClose={setShowTaskModal} />}
     </section>
   );
 };

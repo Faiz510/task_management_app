@@ -4,11 +4,11 @@ import AddSubtasks from './AddSubtasks';
 import Board from '../../../data.json';
 import SelectColOpt from '../../SelectColOpt';
 
-interface AddTaskModalProps {
+interface EditTaskModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
+const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose }) => {
   const [addSubtask, setAddSubtask] = useState<string[]>([]);
   const [curBoard, setCurBoard] = useState(Board.boards[0]);
   const [inputValues, setInputValues] = useState<TaskType>({
@@ -106,4 +106,4 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
   );
 };
 
-export default AddTaskModal;
+export default EditTaskModal;

@@ -5,7 +5,7 @@ import ArrowIconDown from '../assets/icon-chevron-down.svg';
 import addTaskIcon from '../assets/icon-add-task-mobile.svg';
 import threeDotIcon from '../assets/icon-vertical-ellipsis.svg';
 import AddTaskModal from './modals/TaskModal/AddTaskModal';
-import BoardOpt from './BoardOpt';
+import ModalOpt from './ModalOpt';
 import EditBoardModal from './modals/BoardModal/EditBoardModal';
 import DelBoardModal from './modals/BoardModal/DelBoardModal';
 
@@ -64,12 +64,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      <BoardOpt
-        showBoardOpt={showBoardOpt}
-        setShowBoardOpt={setShowBoardOpt}
+      <ModalOpt
+        showOpt={showBoardOpt}
+        setShowOpt={setShowBoardOpt}
         dotRef={dotDivRef}
-        setShowEditBoardModal={setShowEditBoardModal}
-        setShowDelBoardModal={setShowDelBoardModal}
+        setShowEditModal={setShowEditBoardModal}
+        setShowDelModal={setShowDelBoardModal}
+        modalFor="Board"
       />
 
       {showEditBoardModal && <EditBoardModal onClose={setShowEditBoardModal} />}
