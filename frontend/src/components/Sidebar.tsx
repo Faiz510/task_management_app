@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Boards from '../data.json';
 import { motion } from 'framer-motion';
 import boardIcon from '../assets/icon-board.svg';
@@ -13,8 +13,25 @@ interface sidebarPropsType {
 }
 
 const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [activeBoard, setActiveBoard] = useState<string>(Boards.boards[0].name);
   const [showAddBoardModal, setShowAddBoardModal] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   if (window.matchMedia('prefers-color-scheme:dark').matches) {
+  //     setTheme('dark');
+  //   } else {
+  //     setTheme('light');
+  //   }
+  // }, [theme]);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [theme]);
 
   return (
     <section
@@ -50,7 +67,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
         ))}
 
         <div
-          className="bg-custom-primary_bg text-custom-button_bg px-2 py-2 rounded-r-2xl flex items-center justify-center gap-2 cursor-pointer hover:bg-custom-button_hover_bg text-base mt-4 font-medium"
+          className="bg-custom-primary_bg text-custom-button_bg px-2 py-2 rounded-r-2xl flex items-center justify-center gap-2 cursor-pointer hover:bg-custom-button_hover_bg text-base mt-4 font-medium dark:bg-custom-dark_primary_bg dark:hover:bg-custom-secondary_bg"
           onClick={() => setShowAddBoardModal(true)}
         >
           <img src={boardIcon} alt="" />
@@ -59,8 +76,8 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
       </div>
 
       <div className="absolute bottom-20 w-[12rem] ">
-        <div className="flex gap-3 justify-center items-center bg-custom-secondary_bg rounded-r-full py-2">
-          <img src={darkIcon} alt="" width={20} />
+        <div className="flex gap-3 justify-center items-center bg-custom-secondary_bg dark:bg-custom-dark_secondary_bg rounded-r-full py-2">
+          <img src={ligthIcon} alt="" width={20} />
           <div>
             <input
               type="checkbox"
@@ -68,9 +85,15 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
               id="toggle"
               className="toggle hidden"
             />
-            <label htmlFor="toggle" className="switch"></label>
+            <label
+              htmlFor="toggle"
+              className="switch"
+              onClick={() =>
+                setTheme((pre) => (pre === 'light' ? 'dark' : 'light'))
+              }
+            ></label>
           </div>
-          <img src={ligthIcon} alt="" width={20} />
+          <img src={darkIcon} alt="" width={20} />
         </div>
 
         <div

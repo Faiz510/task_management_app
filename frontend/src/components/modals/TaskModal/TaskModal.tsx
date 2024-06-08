@@ -39,7 +39,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose }) => {
             {curBoard.columns[0].tasks.map((task) => (
               <>
                 {task.subtasks.map((t) => (
-                  <div className="py-1 my-1 bg-custom-secondary_bg px-2 flex  gap-2 text-custom-secondary_text text-sm hover:bg-custom-secondary_text/60 hover:text-custom-dark_primary_bg ">
+                  <div className="py-1 my-1 bg-custom-secondary_bg px-2 flex  gap-2 text-custom-secondary_text text-sm hover:bg-custom-secondary_text/60 hover:text-custom-dark_primary_bg dark:bg-custom-dark_secondary_bg hover:dark:bg-custom-secondary_bg dark:hover:text-custom-button_bg">
                     <input
                       type="checkbox"
                       className=" w-4 bg-custom-button_bg outline-none text-custom-button_bg"

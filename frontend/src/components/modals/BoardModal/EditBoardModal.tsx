@@ -41,7 +41,7 @@ const EditBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
           <input
             type="text"
             placeholder="e.g: Backend Task"
-            className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto"
+            className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg focus-within:outline-none"
           />
         </div>
 

@@ -55,7 +55,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
           <input
             type="text"
             placeholder="e.g: Backend Task"
-            className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto"
+            className="w-full focus:outline-custom-button_bg text-base p-1 font-light mx-auto dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg bottom-0 focus-within:outline-none"
             id="title"
             onChange={onChangeInputValHandler}
             defaultValue={inputValues.title}
@@ -65,7 +65,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
         <div className="flex flex-col my-4">
           <label
             htmlFor="task_desc"
-            className="text-sm text-custom-secondary_text font-semibold"
+            className="text-sm text-custom-secondary_text font-semibold "
             id="description"
           >
             Description
@@ -75,7 +75,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
             name="task_desc"
             rows={2}
             placeholder="Task Desc"
-            className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto"
+            className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto dark:bg-custom-dark_secondary_bg dark:text-custom-primary_bg focus-within:outline-none"
             onChange={onChangeInputValHandler}
             defaultValue={inputValues.description}
           />

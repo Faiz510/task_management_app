@@ -41,7 +41,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose }) => {
   return (
     <OverlayModal onClose={onClose}>
       <form className="flex flex-col " onSubmit={addTaskFormData}>
-        <h3 className="font-semibold text-lg my-4 ml-3 dark:text-custom-primary_text">
+        <h3 className="font-semibold text-lg my-4 ml-3 dark:text-custom-primary_text ">
           Add New Task
         </h3>
 
@@ -55,7 +55,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose }) => {
           <input
             type="text"
             placeholder="e.g: Backend Task"
-            className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto"
+            className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg focus-within:outline-none"
             id="title"
             onChange={onChangeInputValHandler}
             defaultValue={inputValues.title}
@@ -75,7 +75,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose }) => {
             name="task_desc"
             rows={2}
             placeholder="Task Desc"
-            className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto"
+            className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg focus-within:outline-none"
             onChange={onChangeInputValHandler}
             defaultValue={inputValues.description}
           />

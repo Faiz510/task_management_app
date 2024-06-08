@@ -50,7 +50,7 @@ const ModalOpt: React.FC<BoardOptType> = ({
       {showOpt && (
         <div
           ref={boardRefOpt}
-          className={`absolute ${modalFor === 'Task' ? ' right-0 top-10' : ' right-5 top-20'} flex flex-col justify-center items-center bg-custom-primary_bg px-10 py-2 cursor-pointer rounded-lg text-sm`}
+          className={`absolute ${modalFor === 'Task' ? ' right-0 top-10' : ' right-5 top-20'} flex flex-col justify-center items-center bg-custom-primary_bg dark:bg-custom-dark_secondary_bg px-10 py-2 cursor-pointer rounded-lg text-sm`}
         >
           <span
             className="cursor-pointer my-1 text-custom-secondary_text w-full"

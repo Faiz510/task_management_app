@@ -7,7 +7,7 @@ const TaskSection = () => {
   const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
 
   return (
-    <section className="bg-custom-secondary_bg h-screen px-4 flex ">
+    <section className="bg-custom-secondary_bg dark:bg-custom-dark_secondary_bg  px-4 flex ">
       <table className="w-full mt-4">
         <thead>
           <tr>
@@ -28,11 +28,11 @@ const TaskSection = () => {
                 {column.tasks.map((task, j) => (
                   <motion.div
                     key={j}
-                    className="px-2 w-[250px] h-[100px] my-4 bg-custom-primary_bg cursor-pointer shadow-md rounded-md py-2"
+                    className="px-2 w-[250px] h-[100px] my-4 bg-custom-primary_bg dark:bg-custom-dark_primary_bg cursor-pointer shadow-md rounded-md py-2"
                     whileHover={{ scale: 1.02, opacity: 0.6 }}
                     onClick={() => setShowTaskModal(true)}
                   >
-                    <h3 className="text-black dark:bg-custom-primary_bg font-semibold text-sm">
+                    <h3 className="text-custom-dark_primary_bg dark:text-custom-secondary_bg font-semibold text-sm">
                       {task.title.length > 50
                         ? `${task.title.slice(0, 50)}...`
                         : task.title}
@@ -49,7 +49,7 @@ const TaskSection = () => {
       </table>
 
       {Boards.boards[0].columns.length < 4 && (
-        <div className="bg-custom-button_hover_bg flex items-center justify-center w-1/4 h-[300px] mt-10 font-semibold text-custom-secondary_text hover:text-custom-button_bg cursor-pointer">
+        <div className="bg-custom-button_hover_bg flex items-center justify-center w-1/4 h-[300px] mt-10 font-semibold text-custom-secondary_text hover:text-custom-button_bg cursor-pointer dark:bg-custom-dark_primary_bg">
           <h3>Add Column</h3>
         </div>
       )}

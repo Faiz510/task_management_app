@@ -8,6 +8,7 @@ import '../src/css/ScrollBar.css';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  // style={{gridTemplateColumns : '30% 70%'}}
 
   return (
     <main className="">
@@ -15,7 +16,7 @@ const App = () => {
         <Navbar />
       </div>
 
-      <section className="grid grid-cols-5">
+      <section className="grid grid-cols-5 bg-custom-primary_bg dark:bg-custom-dark_primary_bg">
         <AnimatePresence>
           {!showSidebar && (
             <motion.div

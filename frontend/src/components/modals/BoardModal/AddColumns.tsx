@@ -38,11 +38,14 @@ const AddColumns: React.FC<AddColumnsProps> = ({
       className={`min-h-[100px] max-h-[200px] ${isOverflow ? 'overflow-y-scroll' : 'overflow-hidden'} `}
     >
       {defaultCol.map((col, i) => (
-        <div className="flex justify-between items-center px-4 my-2" key={i}>
+        <div
+          className="flex gap-2 justify-between items-center px-4 my-2"
+          key={i}
+        >
           <input
             type="text"
             defaultValue={col}
-            className="w-full text-base focus:outline-custom-button_bg/60 focus:outline-1 p-1"
+            className="w-full text-base focus:outline-custom-button_bg/60 focus:outline-1 p-1 dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg focus-within:outline-none"
             placeholder="new column"
             onChange={(e) => handleOnChange(e, i)}
             id={col}

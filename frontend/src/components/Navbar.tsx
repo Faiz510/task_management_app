@@ -21,14 +21,14 @@ const Navbar = () => {
     <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg w-full fixed top-0 z-10 h-20">
       <div className="flex items-center justify-center md:gap-2 cursor-pointer my-4 ml-4">
         <img src={logoIcon} alt="" width={30} />
-        <h3 className="hidden md:flex text-3xl font-semibold tracking-wider">
+        <h3 className="hidden md:flex text-3xl font-semibold tracking-wider dark:text-custom-primary_bg">
           Kanban
         </h3>
       </div>
 
       <div className="flex items-center justify-between px-6 md:px-10 my-2 w-[90%] md:w-[80%]">
         <div className="flex items-center justify-center gap-2">
-          <span className="text-3xl  font-semibold tracking-wider">
+          <span className="text-3xl  font-semibold tracking-wider dark:text-custom-primary_bg">
             Broad title
           </span>
           <motion.div
