@@ -20,3 +20,17 @@ interface BoardType {
   columns: string[];
   tasks: TaskType[];
 }
+
+///Autu ////////////
+
+interface RegisterUserType {
+  username: string;
+  email: string;
+  password: string;
+  conformPassword: string;
+}
+
+interface SigninUserType {
+  email: string;
+  password: string;
+}

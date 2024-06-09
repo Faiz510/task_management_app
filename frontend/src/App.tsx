@@ -5,9 +5,13 @@ import TaskSection from './components/TaskSection';
 import { AnimatePresence, motion } from 'framer-motion';
 import ShowSidebarButton from './components/ShowSidebarButton';
 import '../src/css/ScrollBar.css';
+import Register from './components/modals/Auth/Register';
+import Signin from './components/modals/Auth/Signin';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [showRegisterModal, setRegisterModal] = useState<boolean>(false);
   // style={{gridTemplateColumns : '30% 70%'}}
 
   return (
@@ -45,6 +49,14 @@ const App = () => {
 
       {/* // show bar icon  */}
       {showSidebar && <ShowSidebarButton setShowSidebar={setShowSidebar} />}
+
+      {showRegisterModal && (
+        <Register onClose={setRegisterModal} showRegModal={setRegisterModal} />
+      )}
+
+      {!isLoggedIn && !showRegisterModal && (
+        <Signin onClose={setRegisterModal} showRegModal={setRegisterModal} />
+      )}
     </main>
   );
 };
