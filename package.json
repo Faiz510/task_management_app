@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
     "@types/node": "^20.12.12",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -20,6 +21,7 @@
     "mongodb": "^6.6.2",
     "mongoose": "^8.4.0",
     "nodemon": "^3.1.2",
+    "react-redux": "^9.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },

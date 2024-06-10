@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
-import { AuthReqApiHandler } from './AuthReqHandler';
+import { useAppDispatch } from '../../../redux/hook';
+import { signinHandler } from '../../../redux/Slice/SigninSlice';
 interface SigninProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
   showRegModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ const Signin: React.FC<SigninProps> = ({
     email: '',
     password: '',
   });
+  const dispatch = useAppDispatch();
 
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -25,15 +27,14 @@ const Signin: React.FC<SigninProps> = ({
 
   const submitRegisterFormHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // alert(inputValues.email);
-    AuthReqApiHandler(`auth/login`, inputValues);
+    dispatch(signinHandler(inputValues));
 
     onClose(false);
     showRegModal(false);
     showSignModal(false);
   };
 
-  const signHandler = () => {
+  const createAccountHandler = () => {
     onClose(false);
     showRegModal(false);
     showSignModal(false);
@@ -90,7 +91,7 @@ const Signin: React.FC<SigninProps> = ({
             if don't have Account then ?
             <span
               className="text-custom-button_bg font-medium cursor-pointer px-2"
-              onClick={signHandler}
+              onClick={createAccountHandler}
             >
               Create one
             </span>
