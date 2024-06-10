@@ -1,7 +1,8 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import OverlayModal from '../OverlayModal';
-import { useAppDispatch } from '../../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import { signinHandler } from '../../../redux/Slice/SigninSlice';
+
 interface SigninProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
   showRegModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +20,8 @@ const Signin: React.FC<SigninProps> = ({
   });
   const dispatch = useAppDispatch();
 
+  const userError = useAppSelector((state) => state.user.error);
+
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
 
@@ -29,14 +32,16 @@ const Signin: React.FC<SigninProps> = ({
     e.preventDefault();
     dispatch(signinHandler(inputValues));
 
-    onClose(false);
-    showRegModal(false);
-    showSignModal(false);
+    if (!userError) {
+      onClose(false);
+      showRegModal(false);
+      showSignModal(false);
+    }
   };
 
   const createAccountHandler = () => {
     onClose(false);
-    showRegModal(false);
+    showRegModal(true);
     showSignModal(false);
   };
 
@@ -97,6 +102,8 @@ const Signin: React.FC<SigninProps> = ({
             </span>
           </span>
         </div>
+
+        {userError && <div className="text-red-500 my-4">{userError}</div>}
       </form>
     </OverlayModal>
   );

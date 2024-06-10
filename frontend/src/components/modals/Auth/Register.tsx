@@ -19,6 +19,7 @@ const Register: React.FC<RegisterProps> = ({
     password: '',
     conformPassword: '',
   });
+  const [regError, setRegError] = useState(null);
 
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -34,8 +35,8 @@ const Register: React.FC<RegisterProps> = ({
         showRegModal(false);
         showSignModal(true);
       }
-    } catch (error) {
-      console.error('Registration failed:', error);
+    } catch (error: any) {
+      setRegError(error);
     }
   };
 
@@ -134,6 +135,8 @@ const Register: React.FC<RegisterProps> = ({
             </span>
           </span>
         </div>
+
+        {regError && <div className="text-red-500 my-4">{regError}</div>}
       </form>
     </OverlayModal>
   );

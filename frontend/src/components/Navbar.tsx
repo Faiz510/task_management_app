@@ -8,6 +8,9 @@ import AddTaskModal from './modals/TaskModal/AddTaskModal';
 import ModalOpt from './ModalOpt';
 import EditBoardModal from './modals/BoardModal/EditBoardModal';
 import DelBoardModal from './modals/BoardModal/DelBoardModal';
+import { FiLogOut } from 'react-icons/fi';
+import { useAppDispatch } from '../redux/hook';
+import { logout } from '../redux/Slice/SigninSlice';
 
 const Navbar = () => {
   const [showBoards, setShowBoards] = useState<boolean>(false);
@@ -16,6 +19,11 @@ const Navbar = () => {
   const [showEditBoardModal, setShowEditBoardModal] = useState<boolean>(false);
   const [showDelBoardModal, setShowDelBoardModal] = useState<boolean>(false);
   const dotDivRef = useRef<HTMLDivElement>(null);
+
+  const dispatch = useAppDispatch();
+  const onLogoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg w-full fixed top-0 z-10 h-20">
@@ -61,6 +69,13 @@ const Navbar = () => {
           >
             <img src={threeDotIcon} alt="" width={5} />
           </span>
+
+          <div
+            className="px-4 text-2xl text-custom-secondary_text cursor-pointer"
+            onClick={onLogoutHandler}
+          >
+            <FiLogOut />
+          </div>
         </div>
       </div>
 

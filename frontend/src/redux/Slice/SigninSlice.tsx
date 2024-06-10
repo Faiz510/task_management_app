@@ -1,27 +1,48 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthReqApiHandler } from '../../components/modals/Auth/AuthReqHandler';
+import { error } from 'console';
 
-const initialState = {
-  currenUser: null,
+interface UserState {
+  currentUser: any | null;
+  error: string | null;
+}
+
+const initialState: UserState = {
+  currentUser: null,
+  error: null,
 };
 
 export const signinHandler = createAsyncThunk(
   'user/sigin',
-  async (data: any) => {
-    const res = AuthReqApiHandler('auth/login', data);
-    return res;
+  async (data: any, { rejectWithValue }) => {
+    try {
+      const res = await AuthReqApiHandler('auth/login', data);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );
 
 export const signinUserSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      state.currentUser = initialState.currentUser;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(signinHandler.fulfilled, (state, action: any) => {
-      state.currenUser = action.payload;
+      state.currentUser = action.payload;
+      state.error = null;
+    });
+    builder.addCase(signinHandler.rejected, (state, action: any) => {
+      state.currentUser = null;
+      state.error = action.payload;
     });
   },
 });
 
+export const { logout } = signinUserSlice.actions;
 export default signinUserSlice.reducer;
