@@ -1,11 +1,17 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
+import { AuthReqApiHandler } from './AuthReqHandler';
 interface SigninProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
   showRegModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showSignModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Signin: React.FC<SigninProps> = ({ onClose, showRegModal }) => {
+const Signin: React.FC<SigninProps> = ({
+  onClose,
+  showRegModal,
+  showSignModal,
+}) => {
   const [inputValues, setInputValues] = useState<SigninUserType>({
     email: '',
     password: '',
@@ -19,13 +25,18 @@ const Signin: React.FC<SigninProps> = ({ onClose, showRegModal }) => {
 
   const submitRegisterFormHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(inputValues.email);
+    // alert(inputValues.email);
+    AuthReqApiHandler(`auth/login`, inputValues);
+
     onClose(false);
+    showRegModal(false);
+    showSignModal(false);
   };
 
   const signHandler = () => {
     onClose(false);
-    showRegModal(true);
+    showRegModal(false);
+    showSignModal(false);
   };
 
   return (

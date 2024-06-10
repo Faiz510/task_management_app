@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import TaskSection from './components/TaskSection';
@@ -10,9 +10,9 @@ import Signin from './components/modals/Auth/Signin';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
-  const [showRegisterModal, setRegisterModal] = useState<boolean>(false);
-  // style={{gridTemplateColumns : '30% 70%'}}
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [showSignModal, setShowSignModal] = useState<boolean>(false);
+  const [showRegisterModal, setRegisterModal] = useState<boolean>(true);
 
   return (
     <main className="">
@@ -51,11 +51,19 @@ const App = () => {
       {showSidebar && <ShowSidebarButton setShowSidebar={setShowSidebar} />}
 
       {showRegisterModal && (
-        <Register onClose={setRegisterModal} showRegModal={setRegisterModal} />
+        <Register
+          onClose={setRegisterModal}
+          showRegModal={setRegisterModal}
+          showSignModal={setShowSignModal}
+        />
       )}
 
-      {!isLoggedIn && !showRegisterModal && (
-        <Signin onClose={setRegisterModal} showRegModal={setRegisterModal} />
+      {!isLoggedIn && showSignModal && (
+        <Signin
+          onClose={setRegisterModal}
+          showRegModal={setRegisterModal}
+          showSignModal={setShowSignModal}
+        />
       )}
     </main>
   );

@@ -1,11 +1,18 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
+import { AuthReqApiHandler } from './AuthReqHandler';
+
 interface RegisterProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
   showRegModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showSignModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Register: React.FC<RegisterProps> = ({ onClose, showRegModal }) => {
+const Register: React.FC<RegisterProps> = ({
+  onClose,
+  showRegModal,
+  showSignModal,
+}) => {
   const [inputValues, setInputValues] = useState<RegisterUserType>({
     username: '',
     email: '',
@@ -15,19 +22,27 @@ const Register: React.FC<RegisterProps> = ({ onClose, showRegModal }) => {
 
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-
     setInputValues({ ...inputValues, [id]: value });
   };
 
-  const submitRegisterFormHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitRegisterFormHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(inputValues.username);
-    onClose(false);
+    try {
+      const res = await AuthReqApiHandler('auth/register', inputValues); // Await the API request
+      if (res) {
+        onClose(false);
+        showRegModal(false);
+        showSignModal(true);
+      }
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   const showSigninHandler = () => {
     onClose(true);
     showRegModal(false);
+    showSignModal(true);
   };
 
   return (
