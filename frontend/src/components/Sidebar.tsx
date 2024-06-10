@@ -7,31 +7,29 @@ import darkIcon from '../assets/icon-dark-theme.svg';
 import hideSideBarIcon from '../assets/icon-hide-sidebar.svg';
 import '../css/toggleButton.css';
 import AddBoardModal from './modals/BoardModal/AddBoardModal';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { switchMode } from '../redux/Slice/DarkModeSlice';
 
 interface sidebarPropsType {
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [activeBoard, setActiveBoard] = useState<string>(Boards.boards[0].name);
   const [showAddBoardModal, setShowAddBoardModal] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (window.matchMedia('prefers-color-scheme:dark').matches) {
-  //     setTheme('dark');
-  //   } else {
-  //     setTheme('light');
-  //   }
-  // }, [theme]);
+  const dispatch = useAppDispatch();
+  const mode = useAppSelector((state) => state?.switchMode.mode);
 
   useEffect(() => {
-    if (theme === 'dark') {
+    if (mode && mode === 'dark') {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
-  }, [theme]);
+
+    console.log(mode);
+  }, [mode]);
 
   return (
     <section
@@ -88,9 +86,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
             <label
               htmlFor="toggle"
               className="switch"
-              onClick={() =>
-                setTheme((pre) => (pre === 'light' ? 'dark' : 'light'))
-              }
+              onClick={() => dispatch(switchMode())}
             ></label>
           </div>
           <img src={darkIcon} alt="" width={20} />

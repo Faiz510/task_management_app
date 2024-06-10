@@ -15,7 +15,7 @@ const App = () => {
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
   const [showRegisterModal, setRegisterModal] = useState<boolean>(false);
 
-  const curUser = useAppSelector((state) => state.user.currentUser);
+  const curUser = useAppSelector((state) => state?.user?.currentUser);
 
   // useEffect(() => {
   //   if (!curUser) {

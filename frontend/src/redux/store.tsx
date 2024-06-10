@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import currentUser from './Slice/SigninSlice';
+import signinUserSlice from './Slice/SigninSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import DarkModeSlice from './Slice/DarkModeSlice';
 
 const persistConfig = {
   key: 'root',
@@ -10,7 +11,8 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  user: currentUser,
+  user: signinUserSlice,
+  switchMode: DarkModeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
