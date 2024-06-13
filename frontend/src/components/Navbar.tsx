@@ -9,7 +9,7 @@ import ModalOpt from './ModalOpt';
 import EditBoardModal from './modals/BoardModal/EditBoardModal';
 import DelBoardModal from './modals/BoardModal/DelBoardModal';
 import { FiLogOut } from 'react-icons/fi';
-import { useAppDispatch } from '../redux/hook';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { logout } from '../redux/Slice/SigninSlice';
 
 const Navbar = () => {
@@ -21,6 +21,9 @@ const Navbar = () => {
   const dotDivRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
+  const curBoard = useAppSelector(
+    (state) => state?.curBoardSlice?.curBoard.curboard,
+  );
   const onLogoutHandler = () => {
     dispatch(logout());
   };
@@ -37,7 +40,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-6 md:px-10 my-2 w-[90%] md:w-[80%]">
         <div className="flex items-center justify-center gap-2">
           <span className="text-3xl  font-semibold tracking-wider dark:text-custom-primary_bg">
-            Broad title
+            {curBoard ? curBoard?.board?.title : ''}
           </span>
           <motion.div
             className="md:hidden cursor-pointer mt-2"

@@ -1,10 +1,10 @@
-interface SubtaskType {
+export interface SubtaskType {
   title: string;
   taskId: string;
   isActive: boolean;
 }
 
-interface TaskType {
+export interface TaskType {
   title: string;
   board: string;
   status: string;
@@ -13,7 +13,8 @@ interface TaskType {
   subTasks: SubtaskType[];
 }
 
-interface BoardType {
+export interface BoardType {
+  _id: string;
   userId: string;
   title: string;
   description: string;
@@ -21,16 +22,27 @@ interface BoardType {
   tasks: TaskType[];
 }
 
+///////////////
+export interface BoardTypeApiResponse {
+  status?: string;
+  boards: BoardType[];
+}
+
+export interface curBoardApiResponse {
+  status?: string;
+  board: BoardType;
+}
+
 ///Autu ////////////
 
-interface RegisterUserType {
+export interface RegisterUserType {
   username: string;
   email: string;
   password: string;
   conformPassword: string;
 }
 
-interface SigninUserType {
+export interface SigninUserType {
   email: string;
   password: string;
 }

@@ -1,34 +1,106 @@
-import React, { FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import AddColumns from './AddColumns';
+import { useAppDispatch, useAppSelector } from '../../../redux/hook';
+import {
+  EditBoard,
+  clearError,
+} from '../../../redux/Slice/boardSlice/BoardSlice';
+import { BoardType } from '../../Types';
+import { getCurBoard } from '../../../redux/Slice/boardSlice/curBoardSlice';
 
-interface AddBoardModalProp {
+interface EditBoardModalProp {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
-  const [defaultCol, setDefaultCol] = useState<string[]>([
-    'Todo',
-    'Doing',
-    'Done',
-  ]);
+const EditBoardModal: React.FC<EditBoardModalProp> = ({ onClose }) => {
+  const curBoard = useAppSelector(
+    (state) => state.curBoardSlice.curBoard.curboard?.board,
+  );
 
-  const onAddNewColumn = () => setDefaultCol([...defaultCol, '']);
+  const [defaultCol, setDefaultCol] = useState<string[]>(
+    curBoard ? curBoard?.columns : [],
+  );
 
-  const submitBoardForm = (e: FormEvent) => {
+  const dispatch = useAppDispatch();
+  const editBoardError = useAppSelector((state) => state.board.error);
+
+  const onAddNewColumn = () => {
+    const newColumns = [...defaultCol, ''];
+    setDefaultCol(newColumns);
+    setInputVal((prevInputVal) =>
+      prevInputVal
+        ? {
+            ...prevInputVal,
+            columns: newColumns,
+          }
+        : null,
+    );
+  };
+
+  const [inputVal, setInputVal] = useState<BoardType | null>(
+    curBoard
+      ? {
+          columns: [...defaultCol],
+          description: curBoard?.description,
+          title: curBoard?.title,
+          userId: curBoard?.userId,
+          tasks: curBoard?.tasks,
+          _id: curBoard?._id,
+        }
+      : null,
+  );
+
+  const onChangeValHandler = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { id, value } = e.target;
+    setInputVal((prevInputVal) =>
+      prevInputVal
+        ? {
+            ...prevInputVal,
+            [id]: value,
+          }
+        : null,
+    );
+  };
+
+  const handlerClearError = () => {
+    dispatch(clearError());
+    onClose(false);
+  };
+
+  const submitBoardForm = async (e: FormEvent) => {
     e.preventDefault();
-    const formData = {
-      defaultCol,
-    };
 
-    alert(formData);
+    // remove empty empty values
+    const newVal = defaultCol.filter((val) => val !== '');
+    setDefaultCol(newVal);
+    const formData = inputVal
+      ? {
+          ...inputVal,
+          columns: newVal,
+        }
+      : null;
+    setInputVal(formData);
+
+    ////////////////////////////
+    const res = await dispatch(
+      EditBoard({ id: curBoard?._id || '', data: formData || null }),
+    );
+
+    dispatch(getCurBoard(curBoard?._id || ''));
+
+    if (res && editBoardError !== '') {
+      handlerClearError();
+    }
   };
 
   return (
-    <OverlayModal onClose={onClose} key={'overlay'}>
+    <OverlayModal onClose={handlerClearError}>
       <form className="flex flex-col" onSubmit={submitBoardForm}>
         <h3 className="font-semibold text-lg my-4 ml-3 dark:text-custom-primary_text">
-          Edit Board
+          Add New Board
         </h3>
 
         <div className="flex flex-col my-4">
@@ -41,11 +113,38 @@ const EditBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
           <input
             type="text"
             placeholder="e.g: Backend Task"
+            id="title"
             className="w-full focus:outline-custom-button_bg/60 text-base p-1 font-light mx-auto dark:text-custom-primary_bg dark:bg-custom-dark_secondary_bg focus-within:outline-none"
+            onChange={onChangeValHandler}
+            defaultValue={inputVal?.title}
           />
         </div>
 
-        <AddColumns setDefaultCol={setDefaultCol} defaultCol={defaultCol} />
+        <div className="flex flex-col my-4">
+          <label
+            htmlFor="task_desc"
+            className="text-sm text-custom-secondary_text font-semibold "
+            id="description"
+          >
+            Description
+          </label>
+
+          <textarea
+            name="task_desc"
+            rows={2}
+            placeholder="Board Description"
+            id="description"
+            className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto dark:bg-custom-dark_secondary_bg dark:text-custom-primary_bg focus-within:outline-none"
+            onChange={onChangeValHandler}
+            defaultValue={inputVal?.description}
+          />
+        </div>
+
+        <AddColumns
+          setDefaultCol={setDefaultCol}
+          defaultCol={defaultCol}
+          setInputVal={setInputVal}
+        />
 
         <button
           type="button"
@@ -61,6 +160,12 @@ const EditBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
         >
           Edit Board
         </button>
+
+        {editBoardError && (
+          <div className="text-red-500 my-2 -tracking-tighter text-center">
+            {editBoardError}
+          </div>
+        )}
       </form>
     </OverlayModal>
   );

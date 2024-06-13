@@ -11,17 +11,10 @@ import { useAppSelector } from './redux/hook';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
   const [showRegisterModal, setRegisterModal] = useState<boolean>(false);
 
   const curUser = useAppSelector((state) => state?.user?.currentUser);
-
-  // useEffect(() => {
-  //   if (!curUser) {
-  //     setShowSignModal(true);
-  //   }
-  // }, [curUser]);
 
   return (
     <>

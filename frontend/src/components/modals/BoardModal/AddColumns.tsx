@@ -4,11 +4,13 @@ import { FaXmark } from 'react-icons/fa6';
 interface AddColumnsProps {
   defaultCol: string[];
   setDefaultCol: React.Dispatch<React.SetStateAction<string[]>>;
+  setInputVal: React.Dispatch<React.SetStateAction<BoardType>>;
 }
 
 const AddColumns: React.FC<AddColumnsProps> = ({
   defaultCol,
   setDefaultCol,
+  setInputVal,
 }) => {
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
   const columnContainerRef = useRef<HTMLDivElement>(null);
@@ -17,6 +19,10 @@ const AddColumns: React.FC<AddColumnsProps> = ({
     const newColumn = [...defaultCol];
     newColumn[i] = e.target.value;
     setDefaultCol(newColumn);
+    setInputVal((prevInputVal) => ({
+      ...prevInputVal,
+      columns: newColumn,
+    }));
   };
 
   const removeColHandler = (index: number) => {

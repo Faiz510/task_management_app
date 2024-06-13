@@ -1,14 +1,39 @@
 import React, { FormEvent } from 'react';
 import OverlayModal from '../OverlayModal';
+import { useAppDispatch, useAppSelector } from '../../../redux/hook';
+import {
+  deleteBoard,
+  getBoard,
+} from '../../../redux/Slice/boardSlice/BoardSlice';
+import {
+  clearState,
+  getCurBoard,
+} from '../../../redux/Slice/boardSlice/curBoardSlice';
 
 interface DelBoardModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DelBoardModal: React.FC<DelBoardModalProps> = ({ onClose }) => {
+  const dispatch = useAppDispatch();
+  const curBoard = useAppSelector(
+    (state) => state.curBoardSlice.curBoard.curboard?.board,
+  );
+
+  const boardData = useAppSelector((state) => state?.board?.Board);
+  // const boardData = useAppSelector((state) => state.board.Board)
+
   const submitDelBoard = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert('form added ');
+    onClose(false);
+    if (curBoard) {
+      dispatch(deleteBoard(curBoard?._id));
+    }
+
+    dispatch(clearState());
+    // console.log(boardData);
+    const id = boardData.boards[0]._id || boardData.boards[1]._id;
+    dispatch(getCurBoard(id));
   };
   return (
     <OverlayModal onClose={onClose}>

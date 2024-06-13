@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { deleteBoard } from '../redux/Slice/boardSlice/BoardSlice';
 
 interface BoardOptType {
   showOpt: boolean;
@@ -18,6 +20,10 @@ const ModalOpt: React.FC<BoardOptType> = ({
   modalFor,
 }) => {
   const boardRefOpt = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
+  const curBoard = useAppSelector(
+    (state) => state.curBoardSlice?.curBoard?.curboard?.board,
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -55,14 +61,12 @@ const ModalOpt: React.FC<BoardOptType> = ({
           <span
             className="cursor-pointer my-1 text-custom-secondary_text w-full"
             onClick={onEditHandler}
-            // onClick={() => setShowEditModal(true)}
           >
             Edit {modalFor}
           </span>
           <span
             className="cursor-pointer my-1 text-red-600 w-full"
             onClick={onDelHandler}
-            // onClick={() => setShowDelModal(true)}
           >
             Delete
           </span>
