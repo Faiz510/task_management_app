@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import DarkModeSlice from './Slice/DarkModeSlice';
 import BoardSlice from './Slice/boardSlice/BoardSlice';
 import curBoardSlice from './Slice/boardSlice/curBoardSlice';
+import TaskSlice from './Slice/taskSlice/TaskSlice';
+import TaskByStatus from './Slice/taskSlice/TaskByStatus';
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +19,8 @@ const reducers = combineReducers({
   switchMode: DarkModeSlice,
   board: BoardSlice,
   curBoardSlice,
+  TaskSlice,
+  TaskByStatus,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

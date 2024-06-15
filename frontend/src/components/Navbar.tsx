@@ -24,6 +24,7 @@ const Navbar = () => {
   const curBoard = useAppSelector(
     (state) => state?.curBoardSlice?.curBoard.curboard,
   );
+  const board = useAppSelector((state) => state.board.Board.boards);
   const onLogoutHandler = () => {
     dispatch(logout());
   };
@@ -55,23 +56,27 @@ const Navbar = () => {
         </div>
 
         <div className="flex justify-center items-center gap-4">
-          <motion.div
-            className="flex items-center justify-center cursor-pointer gap-2 bg-custom-button_bg text-custom-primary_text py-2 rounded-3xl px-5 text-2xl "
-            whileHover={{ opacity: 0.6, transition: { duration: 0.3 } }}
-            onClick={() => setShowAddTaskModal(true)}
-          >
-            <img src={addTaskIcon} alt="" />
-            <span className="hidden md:flex text-base font-semibold">
-              Add New Task
-            </span>
-          </motion.div>
-          <span
-            ref={dotDivRef}
-            className="text-2xl text-custom-secondary_text cursor-pointer"
-            onClick={() => setShowBoardOpt((prev) => !prev)}
-          >
-            <img src={threeDotIcon} alt="" width={5} />
-          </span>
+          {board && board.length > 0 && (
+            <>
+              <motion.div
+                className="flex items-center justify-center cursor-pointer gap-2 bg-custom-button_bg text-custom-primary_text py-2 rounded-3xl px-5 text-2xl "
+                whileHover={{ opacity: 0.6, transition: { duration: 0.3 } }}
+                onClick={() => setShowAddTaskModal(true)}
+              >
+                <img src={addTaskIcon} alt="" />
+                <span className="hidden md:flex text-base font-semibold">
+                  Add New Task
+                </span>
+              </motion.div>
+              <span
+                ref={dotDivRef}
+                className="text-2xl text-custom-secondary_text cursor-pointer"
+                onClick={() => setShowBoardOpt((prev) => !prev)}
+              >
+                <img src={threeDotIcon} alt="" width={5} />
+              </span>
+            </>
+          )}
 
           <div
             className="px-4 text-2xl text-custom-secondary_text cursor-pointer"

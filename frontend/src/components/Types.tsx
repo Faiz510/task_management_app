@@ -5,6 +5,7 @@ export interface SubtaskType {
 }
 
 export interface TaskType {
+  _id: string;
   title: string;
   board: string;
   status: string;
@@ -31,6 +32,11 @@ export interface BoardTypeApiResponse {
 export interface curBoardApiResponse {
   status?: string;
   board: BoardType;
+}
+
+export interface TaskApiResponse {
+  status?: string;
+  task: TaskType;
 }
 
 ///Autu ////////////

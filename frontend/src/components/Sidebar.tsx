@@ -64,7 +64,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
           {boardData &&
             boardData?.boards?.map((board, i) => (
               <motion.div
-                className={`my-1  font-medium tracking-wide py-3 px-7 mr-6 w-[95%] flex items-center gap-2 cursor-pointer rounded-r-full ${
+                className={`my-1  font-medium tracking-wide py-3 px-12 mr-6 w-[95%] flex items-center gap-2 cursor-pointer rounded-r-full ${
                   board._id === curBoard?._id
                     ? 'bg-custom-button_bg text-custom-primary_text'
                     : 'text-custom-secondary_text hover:bg-custom-button_hover_bg hover:text-custom-button_bg'

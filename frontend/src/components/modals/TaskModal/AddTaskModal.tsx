@@ -1,16 +1,24 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import AddSubtasks from './AddSubtasks';
-import Board from '../../../data.json';
 import SelectColOpt from '../../SelectColOpt';
+import { TaskType } from '../../Types';
+import { useAppDispatch, useAppSelector } from '../../../redux/hook';
+import { createTask } from '../../../redux/Slice/taskSlice/TaskSliceApi';
+import { clearTaskError } from '../../../redux/Slice/taskSlice/TaskSlice';
 
 interface AddTaskModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
+  const curBoard = useAppSelector(
+    (state) => state.curBoardSlice.curBoard.curboard?.board,
+  );
+  const addTaskError = useAppSelector((state) => state?.TaskSlice?.error);
   const [addSubtask, setAddSubtask] = useState<string[]>([]);
-  const [curBoard, setCurBoard] = useState(Board.boards[0]);
+  // const [curBoard, setCurBoard] = useState(Board.boards[0]);
+  const [selOptionVal, setSelOptionVal] = useState<string>('');
   const [inputValues, setInputValues] = useState<TaskType>({
     title: '',
     subTasks: [],
@@ -18,7 +26,9 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
     isCompleted: false,
     board: '',
     status: '',
+    _id: '',
   });
+  const dispatch = useAppDispatch();
 
   const onAddSubtaskHanlder = () => setAddSubtask([...addSubtask, '']);
 
@@ -27,15 +37,30 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
   ) => {
     const { id, value } = e.target;
 
-    setInputValues({
-      ...inputValues,
+    setInputValues((preVals) => ({
+      ...preVals,
       [id]: value,
-    });
+      status: selOptionVal,
+      board: curBoard?._id || '',
+    }));
   };
 
-  const addTaskFormData = (e: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    setInputValues((prevVals) => ({
+      ...prevVals,
+      status: selOptionVal,
+      board: curBoard?._id || '',
+    }));
+  }, [selOptionVal, curBoard]);
+
+  const addTaskFormData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(inputValues);
+
+    const res = await dispatch(createTask(inputValues));
+    if (res && addTaskError === '') {
+      onClose(false);
+      dispatch(clearTaskError());
+    }
   };
 
   return (
@@ -66,7 +91,6 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
           <label
             htmlFor="task_desc"
             className="text-sm text-custom-secondary_text font-semibold "
-            id="description"
           >
             Description
           </label>
@@ -75,6 +99,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
             name="task_desc"
             rows={2}
             placeholder="Task Desc"
+            id="description"
             className="w-full focus:outline-custom-button_bg/60 border-0 text-base p-1 font-light mx-auto dark:bg-custom-dark_secondary_bg dark:text-custom-primary_bg focus-within:outline-none"
             onChange={onChangeInputValHandler}
             defaultValue={inputValues.description}
@@ -92,7 +117,10 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
         </button>
 
         <div className="my-4">
-          <SelectColOpt />
+          <SelectColOpt
+            setSelOptVal={setSelOptionVal}
+            selOptVal={selOptionVal}
+          />
         </div>
 
         <button
@@ -101,6 +129,10 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
         >
           Add Task
         </button>
+
+        {addTaskError && (
+          <div className="text-red-500 my-2">{addTaskError}</div>
+        )}
       </form>
     </OverlayModal>
   );

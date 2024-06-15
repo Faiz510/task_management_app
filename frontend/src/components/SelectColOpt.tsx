@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActionMeta, SingleValue, StylesConfig } from 'react-select';
-import Board from '../data.json';
 import Select from 'react-select';
+import { useAppSelector } from '../redux/hook';
 
 interface OptionType {
   value: string;
@@ -41,13 +41,20 @@ const customStyles: StylesConfig<OptionType, false> = {
   }),
 };
 
-const SelectColOpt = () => {
-  const [curBoard, setCurBoard] = useState(Board.boards[0]);
+interface SelectColOptType {
+  setSelOptVal: React.Dispatch<React.SetStateAction<string>>;
+  selOptVal: string;
+}
+
+const SelectColOpt = ({ setSelOptVal, selOptVal }: SelectColOptType) => {
+  const curBoard = useAppSelector(
+    (state) => state.curBoardSlice.curBoard.curboard?.board,
+  );
   const [isSelected, setIsSelected] = useState<OptionType | null>(null);
 
-  const opt = curBoard.columns.map((board) => ({
-    value: board.name,
-    label: board.name,
+  const opt = curBoard?.columns.map((board) => ({
+    value: board,
+    label: board,
   }));
 
   const changeSelectValHandler = (
@@ -57,11 +64,25 @@ const SelectColOpt = () => {
     setIsSelected(newValue);
   };
 
+  useEffect(() => {
+    if (isSelected) {
+      setSelOptVal(isSelected.value);
+    } else if (opt && opt.length > 0) {
+      setSelOptVal(
+        opt.find((option) => option.value === selOptVal)?.value || opt[0].value,
+      );
+    }
+  }, [isSelected, opt, setSelOptVal, selOptVal]);
+
   return (
     <Select
       styles={customStyles}
       options={opt}
-      defaultValue={opt[0] || ''}
+      value={opt?.find((option) => option.value === selOptVal) || opt?.[0]}
+      // defaultValue={opt?.[0]}
+      // defaultValue={
+      //   opt?.find((option) => option.value === selOptVal) || opt?.[0]
+      // }
       onChange={changeSelectValHandler}
     />
   );
