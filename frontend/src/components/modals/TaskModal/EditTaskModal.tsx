@@ -1,15 +1,19 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import AddSubtasks from './AddSubtasks';
-import Board from '../../../data.json';
 import SelectColOpt from '../../SelectColOpt';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import {
   taskById,
   updateTask,
 } from '../../../redux/Slice/taskSlice/TaskSliceApi';
-import { TaskType } from '../../Types';
+import { SubtaskType, TaskType } from '../../Types';
 import { getTaskByStatus } from '../../../redux/Slice/taskSlice/TaskByStatus';
+import {
+  createSubtask,
+  updateSubtaskByIds,
+} from '../../../redux/Slice/subTask/SubtaskApiSlice';
+import { getCurBoard } from '../../../redux/Slice/boardSlice/curBoardSlice';
 
 interface EditTaskModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +21,7 @@ interface EditTaskModalProps {
 }
 
 const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose, id }) => {
-  const [addSubtask, setAddSubtask] = useState<string[]>([]);
+  const [addSubtask, setAddSubtask] = useState<SubtaskType[]>([]);
   const [selOptVal, setSelOptVal] = useState<string>('');
   const [inputValues, setInputValues] = useState<TaskType>({
     title: '',
@@ -35,7 +39,16 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose, id }) => {
     (state) => state.curBoardSlice.curBoard.curboard?.board,
   );
 
-  const onAddSubtaskHanlder = () => setAddSubtask([...addSubtask, '']);
+  const onAddSubtaskHanlder = () => {
+    const newSubtask: SubtaskType = {
+      _id: '',
+      isActive: true,
+      title: '',
+      taskId: curTask ? curTask?._id : '',
+    };
+
+    setAddSubtask([...addSubtask, newSubtask]);
+  };
 
   const onChangeInputValHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -66,6 +79,12 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose, id }) => {
     }));
   }, [selOptVal]);
 
+  useEffect(() => {
+    if (curTask) {
+      setAddSubtask(curTask.subTasks);
+    }
+  }, []);
+
   const addTaskFormData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -75,6 +94,47 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ onClose, id }) => {
       dispatch(getTaskByStatus(curBoard?._id));
     }
     onClose(false);
+
+    // Update subtasks
+
+    // check if its new or already existing subtask
+    const newlyAddedSubtask = addSubtask.filter(
+      (subtask) => subtask._id === '' && subtask.title !== '',
+    );
+
+    if (newlyAddedSubtask.length > 0) {
+      const transformedSubtasks: SubtaskType[] = newlyAddedSubtask.map(
+        (task) => ({
+          title: task.title,
+          taskId: curTask?._id || '',
+          isActive: true,
+          _id: '',
+        }),
+      );
+
+      const newObj = {
+        subtasks: {
+          subTask: transformedSubtasks,
+        },
+      };
+
+      if (curTask) {
+        await dispatch(createSubtask({ id: curTask?._id, data: newObj }));
+      }
+    }
+
+    // update subtask that already exists
+    const alreadyExisted = addSubtask.filter(
+      (subtask) => subtask._id !== '' && subtask.title !== '',
+    );
+
+    await dispatch(updateSubtaskByIds(alreadyExisted));
+
+    await dispatch(taskById(curTask?._id || ''));
+
+    await dispatch(getCurBoard(curBoard?._id || ''));
+
+    await dispatch(getTaskByStatus(curTask?._id || ''));
   };
 
   return (

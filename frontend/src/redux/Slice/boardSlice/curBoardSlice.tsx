@@ -18,10 +18,13 @@ export const getCurBoard = createAsyncThunk(
   'board/curBoard',
   async (id: string, { rejectWithValue }) => {
     try {
-      return await boadApiSliceHandler<null, curBoardApiResponse>({
+      const res = await boadApiSliceHandler<null, curBoardApiResponse>({
         method: 'GET',
         url: `${import.meta.env.VITE_BASE_URL}/api/v1/board/${id}`,
       });
+      console.log();
+
+      return res;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data.message || 'Failed to fetch the board',

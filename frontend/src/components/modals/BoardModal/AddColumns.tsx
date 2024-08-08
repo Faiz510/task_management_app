@@ -46,7 +46,7 @@ const AddColumns: React.FC<AddColumnsProps> = ({
       {defaultCol.map((col, i) => (
         <div
           className="flex gap-2 justify-between items-center px-4 my-2"
-          key={i}
+          key={col || i}
         >
           <input
             type="text"

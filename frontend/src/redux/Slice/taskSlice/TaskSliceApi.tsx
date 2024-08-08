@@ -12,7 +12,7 @@ export const createTask = createAsyncThunk(
         url: `${import.meta.env.VITE_BASE_URL}/api/v1/task`,
         data: data,
       });
-      console.log(res);
+      // console.log(res);
       dispatch(getTaskByStatus(res.task.board));
       return res;
     } catch (error) {

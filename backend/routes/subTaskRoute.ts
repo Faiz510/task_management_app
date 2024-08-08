@@ -1,21 +1,24 @@
-import express from "express";
-import { protect } from "../controller/authController";
+import express from 'express';
+import { protect } from '../controller/authController';
 import {
   createSubTask,
   deleteSubTask,
   getSubtaskById,
   getTaskSubTasks,
   updateSubTask,
-} from "../controller/subTasksController";
+  updateSubtaskByIds,
+} from '../controller/subTasksController';
 
 const router = express.Router();
 
 router.use(protect);
 
-router.route("/task/:taskId").post(createSubTask).get(getTaskSubTasks);
+router.route('/task/:taskId').post(createSubTask).get(getTaskSubTasks);
+
+router.route('/task/updatetaskByIds').patch(updateSubtaskByIds);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(getSubtaskById)
   .delete(deleteSubTask)
   .patch(updateSubTask);

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import TaskModal from './modals/TaskModal/TaskModal';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
-import axios from 'axios';
+
 import { TaskType } from './Types';
 import { getTaskByStatus } from '../redux/Slice/taskSlice/TaskByStatus';
 
@@ -10,11 +10,11 @@ const TaskSection = () => {
   const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
   const [curTaskId, setCurTaskId] = useState<string | null>(null);
 
+  const dispatch = useAppDispatch();
   const curBoard = useAppSelector(
     (state) => state.curBoardSlice.curBoard.curboard?.board,
   );
 
-  const dispatch = useAppDispatch();
   const taskData = useAppSelector((state) => state.TaskByStatus.tasksByStatus);
 
   useEffect(() => {
@@ -67,7 +67,8 @@ const TaskSection = () => {
                           : task?.title}
                       </h3>
                       <span className="text-custom-secondary_text text-sm">
-                        {task?.subTasks?.length} subtasks
+                        {task?.subTasks.length}
+                        subtasks
                       </span>
                     </motion.div>
                   ))}

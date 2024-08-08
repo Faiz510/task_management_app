@@ -19,7 +19,7 @@ const taskSchema: Schema<taskSchemaType> = new mongoose.Schema({
 taskSchema.pre(/^find/, function (this: taskSchemaType, next) {
   this.populate({
     path: 'subTasks',
-    select: '_id title',
+    select: '_id title isActive',
   });
   next();
 });

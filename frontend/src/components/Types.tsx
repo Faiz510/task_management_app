@@ -1,8 +1,23 @@
 export interface SubtaskType {
+  _id?: string;
   title: string;
   taskId: string;
   isActive: boolean;
 }
+export interface SubtaskRequest {
+  subTask: SubtaskType[];
+}
+
+export interface SubtaskReqObj {
+  subtasks: SubtaskRequest;
+}
+
+export interface createSubtaskThankType {
+  id?: string;
+  data: SubtaskRequest;
+}
+
+//////////////////////
 
 export interface TaskType {
   _id: string;
@@ -37,6 +52,11 @@ export interface curBoardApiResponse {
 export interface TaskApiResponse {
   status?: string;
   task: TaskType;
+}
+
+export interface SubtaskApiResponse {
+  status?: string;
+  subtask: SubtaskType;
 }
 
 ///Autu ////////////

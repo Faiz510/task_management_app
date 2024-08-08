@@ -2,10 +2,18 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import AddSubtasks from './AddSubtasks';
 import SelectColOpt from '../../SelectColOpt';
-import { TaskType } from '../../Types';
+import { SubtaskReqObj, SubtaskType, TaskType } from '../../Types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
-import { createTask } from '../../../redux/Slice/taskSlice/TaskSliceApi';
+import {
+  createTask,
+  taskById,
+} from '../../../redux/Slice/taskSlice/TaskSliceApi';
 import { clearTaskError } from '../../../redux/Slice/taskSlice/TaskSlice';
+
+import {
+  createSubtask,
+  getSubtask,
+} from '../../../redux/Slice/subTask/SubtaskApiSlice';
 
 interface AddTaskModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,8 +24,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
     (state) => state.curBoardSlice.curBoard.curboard?.board,
   );
   const addTaskError = useAppSelector((state) => state?.TaskSlice?.error);
-  const [addSubtask, setAddSubtask] = useState<string[]>([]);
-  // const [curBoard, setCurBoard] = useState(Board.boards[0]);
+  const [addSubtask, setAddSubtask] = useState<SubtaskType[]>([]);
   const [selOptionVal, setSelOptionVal] = useState<string>('');
   const [inputValues, setInputValues] = useState<TaskType>({
     title: '',
@@ -30,7 +37,16 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
   });
   const dispatch = useAppDispatch();
 
-  const onAddSubtaskHanlder = () => setAddSubtask([...addSubtask, '']);
+  const onAddSubtaskHanlder = () => {
+    const newSubtask: SubtaskType = {
+      _id: '',
+      isActive: true,
+      title: '',
+      taskId: '',
+    };
+
+    setAddSubtask([...addSubtask, newSubtask]);
+  };
 
   const onChangeInputValHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -55,11 +71,33 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
 
   const addTaskFormData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const res = await dispatch(createTask(inputValues));
-    if (res && addTaskError === '') {
+
+    // console.log(res);
+
+    if (createTask.fulfilled.match(res) && addTaskError === '') {
       onClose(false);
       dispatch(clearTaskError());
+
+      const resTaskId = res?.payload?.task?._id;
+
+      // Adding subtask
+
+      const transformedSubtasks: SubtaskType[] = addSubtask.map((task) => ({
+        title: task.title,
+        taskId: resTaskId,
+        isActive: true,
+      }));
+
+      const newObj: SubtaskReqObj = {
+        subtasks: {
+          subTask: transformedSubtasks,
+        },
+      };
+
+      await dispatch(createSubtask({ id: resTaskId, data: newObj }));
+      await dispatch(taskById(resTaskId));
+      await dispatch(getSubtask(resTaskId));
     }
   };
 

@@ -7,6 +7,7 @@ import BoardSlice from './Slice/boardSlice/BoardSlice';
 import curBoardSlice from './Slice/boardSlice/curBoardSlice';
 import TaskSlice from './Slice/taskSlice/TaskSlice';
 import TaskByStatus from './Slice/taskSlice/TaskByStatus';
+import SubTaskSlice from './Slice/subTask/SubTaskSlice';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   curBoardSlice,
   TaskSlice,
   TaskByStatus,
+  SubTaskSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
