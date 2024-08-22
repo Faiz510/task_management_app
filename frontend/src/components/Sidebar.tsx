@@ -27,7 +27,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
     (state) => state?.curBoardSlice.curBoard.curboard?.board,
   );
 
-  const [activeBoard, setActiveBoard] = useState<string | undefined>(undefined);
+  const [, setActiveBoard] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     dispatch(getBoard());
@@ -64,7 +64,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
           {boardData &&
             boardData?.boards?.map((board, i) => (
               <motion.div
-                className={`my-1  font-medium tracking-wide py-3 px-12 mr-6 w-[95%] flex items-center gap-2 cursor-pointer rounded-r-full ${
+                className={`my-1  font-medium tracking-wide py-3 px-12 mr-4 w-[100%] flex items-center gap-2 cursor-pointer rounded-r-full ${
                   board._id === curBoard?._id
                     ? 'bg-custom-button_bg text-custom-primary_text'
                     : 'text-custom-secondary_text hover:bg-custom-button_hover_bg hover:text-custom-button_bg'
@@ -78,8 +78,8 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
               >
                 <img src={boardIcon} alt="" />
                 <h3 key={i} className="text-sm">
-                  {board?.title?.length > 20
-                    ? `${board.title.slice(0, 20) + '...'}`
+                  {board?.title?.length > 16
+                    ? `${board.title.slice(0, 16) + '...'}`
                     : board.title}
                 </h3>
               </motion.div>
@@ -104,6 +104,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
               name="toggle"
               id="toggle"
               className="toggle hidden"
+              checked={mode === 'dark'}
             />
             <label
               htmlFor="toggle"

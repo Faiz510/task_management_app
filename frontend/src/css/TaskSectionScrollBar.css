@@ -1,0 +1,12 @@
+.scrollable-section::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollable-section::-webkit-scrollbar-thumb {
+  background: #635fc7;
+  border-radius: 10px;
+}
+
+.scrollable-section::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}

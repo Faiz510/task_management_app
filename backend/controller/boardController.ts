@@ -98,13 +98,6 @@ export const getBoardByStatus = catchAsyncHandler(
       return next(new AppError(400, 'user not found with this id'));
     }
 
-    // const boards = await Boards.aggregate([
-    //   // { $match: { userId: UserId.toString() } },
-    //   { $group: { _id: '$userId', count: { $sum: 1 } } },
-    //   { $sort: { count: -1 } },
-    //   { $limit: 2 },
-    // ]);
-
     const boards = await Boards.aggregate([
       // stage 1 : match user id
       { $match: { userId: UserId.toString() } },
@@ -119,8 +112,6 @@ export const getBoardByStatus = catchAsyncHandler(
       },
       // stage 3 : unwind task on base of columns
       { $unwind: { path: '$tasksDetails', preserveNullAndEmptyArrays: true } },
-
-      // { $unwind: '$columns' },
     ]);
 
     res.status(200).json({

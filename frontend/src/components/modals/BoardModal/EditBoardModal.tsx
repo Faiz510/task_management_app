@@ -89,9 +89,11 @@ const EditBoardModal: React.FC<EditBoardModalProp> = ({ onClose }) => {
       EditBoard({ id: curBoard?._id || '', data: formData || null }),
     );
 
+    console.log(res);
+
     dispatch(getCurBoard(curBoard?._id || ''));
 
-    if (res && editBoardError !== '') {
+    if (res.type === 'board/edit/fulfilled') {
       handlerClearError();
     }
   };

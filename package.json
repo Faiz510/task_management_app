@@ -5,7 +5,9 @@
   "main": "server/backend.ts",
   "scripts": {
     "start": "ts-node backend/server.ts",
-    "dev": "nodemon --exec ts-node backend/server.ts"
+    "dev": "nodemon --exec ts-node backend/server.ts",
+    "build": "tsc",
+    "vercel-build": "tsc"
   },
   "author": "",
   "license": "ISC",

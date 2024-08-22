@@ -1,7 +1,5 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthReqApiHandler } from '../../components/modals/Auth/AuthReqHandler';
-import { error } from 'console';
-
 interface UserState {
   currentUser: any | null;
   error: string | null;

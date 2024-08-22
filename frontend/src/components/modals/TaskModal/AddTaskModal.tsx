@@ -10,10 +10,8 @@ import {
 } from '../../../redux/Slice/taskSlice/TaskSliceApi';
 import { clearTaskError } from '../../../redux/Slice/taskSlice/TaskSlice';
 
-import {
-  createSubtask,
-  getSubtask,
-} from '../../../redux/Slice/subTask/SubtaskApiSlice';
+import { createSubtask } from '../../../redux/Slice/subTask/SubtaskApiSlice';
+import { getTaskByStatus } from '../../../redux/Slice/taskSlice/TaskByStatus';
 
 interface AddTaskModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +21,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
   const curBoard = useAppSelector(
     (state) => state.curBoardSlice.curBoard.curboard?.board,
   );
+
   const addTaskError = useAppSelector((state) => state?.TaskSlice?.error);
   const [addSubtask, setAddSubtask] = useState<SubtaskType[]>([]);
   const [selOptionVal, setSelOptionVal] = useState<string>('');
@@ -96,8 +95,9 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ onClose }) => {
       };
 
       await dispatch(createSubtask({ id: resTaskId, data: newObj }));
+      // update after adding task
       await dispatch(taskById(resTaskId));
-      await dispatch(getSubtask(resTaskId));
+      await dispatch(getTaskByStatus(curBoard?._id || ''));
     }
   };
 

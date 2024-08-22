@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
 import { AuthReqApiHandler } from './AuthReqHandler';
+import { RegisterUserType } from '../../Types';
 
 interface RegisterProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -121,7 +122,7 @@ const Register: React.FC<RegisterProps> = ({
           type="submit"
           className="w-full my-2 mb-4 py-1 bg-custom-button_bg rounded-full text-custom-secondary_bg font-medium"
         >
-          Add Board
+          Register
         </button>
 
         <div className="my-4">

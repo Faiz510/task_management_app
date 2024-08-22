@@ -28,14 +28,11 @@ const TaskModal: React.FC<TaskModalProps> = ({
   const [showEditTaskModal, setShowEditTaskModal] = useState<boolean>(false);
   const [showDelTaskModal, setShowDelTaskModal] = useState<boolean>(false);
   const taskData = useAppSelector((state) => state.TaskSlice.task.task);
-  const [isSubtaskActive, setIsSubtaskActive] =
-    useState<SubtaskApiResponse | null>(null);
+
   const [selOptVal, setSelOptVal] = useState<string>(
     `${taskData?.task?.status}`,
   );
-  const [isCheckedSubtask, setIsCheckedSubtask] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef(null);
 
   const dispatch = useAppDispatch();
 
@@ -69,7 +66,6 @@ const TaskModal: React.FC<TaskModalProps> = ({
       await dispatch(
         updateActiveStatus({ id: id, data: { isActive: newStatus } }),
       );
-      // setIsSubtaskActive(payload);
 
       if (curtask) {
         await dispatch(taskById(curtask));

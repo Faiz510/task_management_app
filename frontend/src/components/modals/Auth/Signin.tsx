@@ -1,7 +1,8 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import OverlayModal from '../OverlayModal';
-import { useAppDispatch, useAppSelector } from '../../../redux/hook';
+import { useAppDispatch } from '../../../redux/hook';
 import { signinHandler } from '../../../redux/Slice/SigninSlice';
+import { SigninUserType } from '../../Types';
 
 interface SigninProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +21,7 @@ const Signin: React.FC<SigninProps> = ({
   });
   const dispatch = useAppDispatch();
 
-  const userError = useAppSelector((state) => state.user.error);
+  const [userError, setUserError] = useState(null);
 
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -28,14 +29,19 @@ const Signin: React.FC<SigninProps> = ({
     setInputValues({ ...inputValues, [id]: value });
   };
 
-  const submitRegisterFormHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitRegisterFormHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(signinHandler(inputValues));
+    try {
+      const res = await dispatch(signinHandler(inputValues));
 
-    if (!userError) {
-      onClose(false);
-      showRegModal(false);
-      showSignModal(false);
+      if (res) {
+        onClose(false);
+        showRegModal(false);
+        showSignModal(false);
+        setUserError(null);
+      }
+    } catch (error: any) {
+      setUserError(error);
     }
   };
 
@@ -88,7 +94,7 @@ const Signin: React.FC<SigninProps> = ({
           type="submit"
           className="w-full my-2 mb-4 py-1 bg-custom-button_bg rounded-full text-custom-secondary_bg font-medium"
         >
-          Add Board
+          Sign in
         </button>
 
         <div className="my-4">

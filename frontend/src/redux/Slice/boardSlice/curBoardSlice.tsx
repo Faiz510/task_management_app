@@ -22,7 +22,6 @@ export const getCurBoard = createAsyncThunk(
         method: 'GET',
         url: `${import.meta.env.VITE_BASE_URL}/api/v1/board/${id}`,
       });
-      console.log();
 
       return res;
     } catch (error: any) {

@@ -99,6 +99,34 @@ export const deleteTask = catchAsyncHandler(async (req, res, next) => {
   });
 });
 
+interface SubtaskCol {
+  _id: string;
+  title: string;
+  isActive: boolean;
+}
+
+interface TaskCol {
+  _id: string;
+  userId: string;
+  title: string;
+  board: string;
+  status: string;
+  isCompleted: boolean;
+  subTasks: SubtaskCol[];
+  __v: number;
+}
+
+interface GroupedTask {
+  _id: string; // This would be the status like "to do", "done", etc.
+  count: number;
+  tasks: TaskCol[];
+}
+
+interface TasksByStatusResponse {
+  status: string;
+  tasks: GroupedTask[];
+}
+
 export const taskByCol = catchAsyncHandler(
   async (req: userRequest, res, next) => {
     const UserId = req.user?._id;
@@ -106,6 +134,7 @@ export const taskByCol = catchAsyncHandler(
     if (!UserId) {
       return next(new AppError(400, 'user not found with this id'));
     }
+
     const tasks = await Tasks.aggregate([
       // stage 1 : match with user id and board id
       { $match: { userId: UserId.toString(), board: boardId } },

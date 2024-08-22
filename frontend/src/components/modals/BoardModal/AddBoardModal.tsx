@@ -20,7 +20,6 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
   ]);
   const dispatch = useAppDispatch();
   const addBoardError = useAppSelector((state) => state.board.error);
-  const boardData = useAppSelector((state) => state?.board?.Board);
 
   const onAddNewColumn = () => {
     const newColumns = [...defaultCol, ''];
@@ -70,7 +69,7 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
     ////////////////////////////
     const res = await dispatch(createBoard(inputVal));
 
-    if (res && addBoardError !== '') {
+    if (res.type === 'board/create/fulfilled') {
       handlerClearError();
     }
   };

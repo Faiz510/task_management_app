@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import TaskSection from './components/TaskSection';
@@ -8,6 +8,7 @@ import '../src/css/ScrollBar.css';
 import Register from './components/modals/Auth/Register';
 import Signin from './components/modals/Auth/Signin';
 import { useAppSelector } from './redux/hook';
+import '../src/css/TaskSectionScrollBar.css';
 
 const App = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <>
       {curUser ? (
-        <main className="">
+        <main className="dark:bg-custom-dark_primary_bg bg-custom-primary_bg scrollable-section">
           <div className="pt-20">
             <Navbar />
           </div>

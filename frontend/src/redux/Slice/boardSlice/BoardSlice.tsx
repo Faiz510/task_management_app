@@ -1,9 +1,4 @@
-import {
-  PayloadAction,
-  createAsyncThunk,
-  createSlice,
-  isAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { boadApiSliceHandler } from './BoardSliceApi';
 import { BoardType, BoardTypeApiResponse } from '../../../components/Types';
 
@@ -64,9 +59,13 @@ export const createBoard = createAsyncThunk(
   },
 );
 
+interface updateColumnType {
+  columns: string[];
+}
+
 interface EditBoardType {
   id: string;
-  data: BoardType | null;
+  data: BoardType | null | updateColumnType;
 }
 
 export const EditBoard = createAsyncThunk(

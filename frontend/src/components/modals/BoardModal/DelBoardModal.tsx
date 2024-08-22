@@ -1,10 +1,7 @@
 import React, { FormEvent } from 'react';
 import OverlayModal from '../OverlayModal';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
-import {
-  deleteBoard,
-  getBoard,
-} from '../../../redux/Slice/boardSlice/BoardSlice';
+import { deleteBoard } from '../../../redux/Slice/boardSlice/BoardSlice';
 import {
   clearState,
   getCurBoard,
@@ -21,7 +18,6 @@ const DelBoardModal: React.FC<DelBoardModalProps> = ({ onClose }) => {
   );
 
   const boardData = useAppSelector((state) => state?.board?.Board);
-  // const boardData = useAppSelector((state) => state.board.Board)
 
   const submitDelBoard = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -11,12 +11,11 @@ export const AuthReqApiHandler = async <T, R>(
       { withCredentials: true },
     );
 
-    if (res.status !== 200) {
-      throw new Error(res.data.message || 'Unknown error occurred');
-    }
-
     return res.data;
   } catch (error: any) {
-    throw error.response?.data.message || 'failed';
+    if (error.response) {
+      throw error.response.data.message || 'An error occurred';
+    }
+    throw 'An unexpected error occurred';
   }
 };

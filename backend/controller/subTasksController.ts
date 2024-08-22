@@ -78,7 +78,6 @@ export const updateSubTask = catchAsyncHandler(async (req, res, next) => {
 });
 
 export const updateSubtaskByIds = catchAsyncHandler(async (req, res, next) => {
-  // const id = req.params.id;
   const { subtasks } = req.body;
 
   console.log(subtasks);
