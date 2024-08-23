@@ -5,7 +5,7 @@ import { BoardType } from '../../Types';
 interface AddColumnsProps {
   defaultCol: string[];
   setDefaultCol: React.Dispatch<React.SetStateAction<string[]>>;
-  setInputVal: React.Dispatch<React.SetStateAction<BoardType>>;
+  setInputVal: React.Dispatch<React.SetStateAction<BoardType | null>>;
 }
 
 const AddColumns: React.FC<AddColumnsProps> = ({
@@ -20,10 +20,15 @@ const AddColumns: React.FC<AddColumnsProps> = ({
     const newColumn = [...defaultCol];
     newColumn[i] = e.target.value;
     setDefaultCol(newColumn);
-    setInputVal((prevInputVal) => ({
-      ...prevInputVal,
-      columns: newColumn,
-    }));
+
+    setInputVal((prevInputVal) =>
+      prevInputVal
+        ? {
+            ...prevInputVal,
+            columns: newColumn,
+          }
+        : null,
+    );
   };
 
   const removeColHandler = (index: number) => {

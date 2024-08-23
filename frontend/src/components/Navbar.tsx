@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logoIcon from '../assets/logo-mobile.svg';
 import { motion } from 'framer-motion';
 import ArrowIconDown from '../assets/icon-chevron-down.svg';
@@ -12,7 +12,11 @@ import { FiLogOut } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { logout } from '../redux/Slice/SigninSlice';
 
-const Navbar = () => {
+interface NavbarProps {
+  setShowBoardOnMobile: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ setShowBoardOnMobile }) => {
   const [showBoards, setShowBoards] = useState<boolean>(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
   const [showBoardOpt, setShowBoardOpt] = useState<boolean>(false);
@@ -28,6 +32,16 @@ const Navbar = () => {
   const onLogoutHandler = () => {
     dispatch(logout());
   };
+
+  useEffect(() => {
+    if (showBoards) {
+      setShowBoardOnMobile(true);
+    } else {
+      setShowBoardOnMobile(false);
+    }
+
+    // console.log(showBoardOnMobile);
+  }, [showBoards]);
 
   return (
     <section className="flex items-center justify-between bg-custom-primary_bg dark:bg-custom-dark_primary_bg w-full fixed top-0 z-10 h-20">

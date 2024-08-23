@@ -24,13 +24,18 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
   const onAddNewColumn = () => {
     const newColumns = [...defaultCol, ''];
     setDefaultCol(newColumns);
-    setInputVal((prevInputVal) => ({
-      ...prevInputVal,
-      columns: newColumns,
-    }));
+
+    setInputVal((prevInputVal) =>
+      prevInputVal
+        ? {
+            ...prevInputVal,
+            columns: newColumns,
+          }
+        : null,
+    );
   };
 
-  const [inputVal, setInputVal] = useState<BoardType>({
+  const [inputVal, setInputVal] = useState<BoardType | null>({
     columns: [...defaultCol],
     description: '',
     title: '',
@@ -43,10 +48,15 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { id, value } = e.target;
-    setInputVal((prevInputVal) => ({
-      ...prevInputVal,
-      [id]: value,
-    }));
+
+    setInputVal((prevInputVal) =>
+      prevInputVal
+        ? {
+            ...prevInputVal,
+            [id]: value,
+          }
+        : null,
+    );
   };
 
   const handlerClearError = () => {
@@ -60,11 +70,20 @@ const AddBoardModal: React.FC<AddBoardModalProp> = ({ onClose }) => {
     // remove empty empty values
     const newVal = defaultCol.filter((val) => val !== '');
     setDefaultCol(newVal);
-    const formData = {
-      ...inputVal,
-      columns: newVal,
-    };
-    setInputVal(formData);
+
+    if (inputVal) {
+      const formData: BoardType = {
+        ...inputVal,
+        columns: newVal,
+        _id: inputVal._id || '',
+        userId: inputVal.userId || '',
+        title: inputVal.title || '',
+        description: inputVal.description || '',
+        tasks: inputVal.tasks || [],
+      };
+
+      setInputVal(formData);
+    }
 
     ////////////////////////////
     const res = await dispatch(createBoard(inputVal));

@@ -42,11 +42,11 @@ const EditBoardModal: React.FC<EditBoardModalProp> = ({ onClose }) => {
     curBoard
       ? {
           columns: [...defaultCol],
-          description: curBoard?.description,
-          title: curBoard?.title,
-          userId: curBoard?.userId,
-          tasks: curBoard?.tasks,
-          _id: curBoard?._id,
+          description: curBoard?.description || '',
+          title: curBoard?.title || '',
+          userId: curBoard?.userId || '',
+          tasks: curBoard?.tasks || [],
+          _id: curBoard?._id || '',
         }
       : null,
   );

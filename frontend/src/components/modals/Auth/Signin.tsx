@@ -21,7 +21,7 @@ const Signin: React.FC<SigninProps> = ({
   });
   const dispatch = useAppDispatch();
 
-  const [userError, setUserError] = useState(null);
+  const [userError, setUserError] = useState<string | null>(null);
 
   const changeInputValHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -31,17 +31,16 @@ const Signin: React.FC<SigninProps> = ({
 
   const submitRegisterFormHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const res = await dispatch(signinHandler(inputValues));
 
-      if (res) {
-        onClose(false);
-        showRegModal(false);
-        showSignModal(false);
-        setUserError(null);
-      }
-    } catch (error: any) {
-      setUserError(error);
+    const res = await dispatch(signinHandler(inputValues));
+
+    if (res.type === 'user/sigin/fulfilled') {
+      onClose(false);
+      showRegModal(false);
+      showSignModal(false);
+      setUserError(null);
+    } else {
+      setUserError(res?.payload as string);
     }
   };
 
@@ -109,7 +108,9 @@ const Signin: React.FC<SigninProps> = ({
           </span>
         </div>
 
-        {userError && <div className="text-red-500 my-4">{userError}</div>}
+        {userError !== null && (
+          <div className="text-red-500 my-4">{userError}</div>
+        )}
       </form>
     </OverlayModal>
   );

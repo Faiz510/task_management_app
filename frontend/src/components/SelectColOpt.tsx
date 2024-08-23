@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActionMeta, SingleValue, StylesConfig } from 'react-select';
+import { SingleValue, StylesConfig } from 'react-select';
 import Select from 'react-select';
 import { useAppSelector } from '../redux/hook';
 
@@ -57,10 +57,7 @@ const SelectColOpt = ({ setSelOptVal, selOptVal }: SelectColOptType) => {
     label: board,
   }));
 
-  const changeSelectValHandler = (
-    newValue: SingleValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>,
-  ) => {
+  const changeSelectValHandler = (newValue: SingleValue<OptionType>) => {
     setIsSelected(newValue);
   };
 
@@ -79,10 +76,6 @@ const SelectColOpt = ({ setSelOptVal, selOptVal }: SelectColOptType) => {
       styles={customStyles}
       options={opt}
       value={opt?.find((option) => option.value === selOptVal) || opt?.[0]}
-      // defaultValue={opt?.[0]}
-      // defaultValue={
-      //   opt?.find((option) => option.value === selOptVal) || opt?.[0]
-      // }
       onChange={changeSelectValHandler}
     />
   );

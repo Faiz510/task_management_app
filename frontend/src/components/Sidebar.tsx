@@ -95,7 +95,7 @@ const Sidebar: React.FC<sidebarPropsType> = ({ setShowSidebar }) => {
         </div>
       </div>
 
-      <div className="absolute bottom-20 w-[14rem] ">
+      <div className="opacity-0 md:opacity-100 md:absolute bottom-20 w-[12rem] ">
         <div className="flex gap-3 justify-center items-center bg-custom-secondary_bg dark:bg-custom-dark_secondary_bg rounded-r-full py-2">
           <img src={ligthIcon} alt="" width={20} />
           <div>

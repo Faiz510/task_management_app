@@ -17,19 +17,21 @@ const App = () => {
 
   const curUser = useAppSelector((state) => state?.user?.currentUser);
 
+  const [showBoardOnMobile, setShowBoardOnMobile] = useState(false);
+
   return (
     <>
       {curUser ? (
         <main className="dark:bg-custom-dark_primary_bg bg-custom-primary_bg scrollable-section">
           <div className="pt-20">
-            <Navbar />
+            <Navbar setShowBoardOnMobile={setShowBoardOnMobile} />
           </div>
 
-          <section className="grid grid-cols-5 bg-custom-primary_bg dark:bg-custom-dark_primary_bg">
+          <section className="grid grid-cols-4  md:grid-cols-5 bg-custom-primary_bg dark:bg-custom-dark_primary_bg">
             <AnimatePresence>
               {!showSidebar && (
                 <motion.div
-                  className="hidden md:col-span-1 md:flex"
+                  className={`${showBoardOnMobile ? 'absolute' : 'hidden'} md:col-span-1 md:flex`}
                   key="sidebar"
                   initial={{ translateX: -300 }}
                   animate={{
