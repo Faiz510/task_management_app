@@ -1,3 +1,5 @@
+Task Management App 
+
 - Technologies Used: React, TypeScript, Node.js, MongoDB, Express.js.
 - Authentication: Secure user authentication with login and signup functionalities.
 - Add Board: Users can create and manage boards to organize their tasks.--
